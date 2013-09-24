@@ -17,6 +17,9 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('sencha-build');
 ```
 
+## Sencha CMD
+Sencha CMD is required for this plugin.  In most cases it's installed as the command line app 'sencha'.  For more details on Sencha CMD, visit http://docs-origin.sencha.com/cmd/3.1.2/#!/guide/command
+
 ## The "sencha_app_build" task
 
 ### Overview
