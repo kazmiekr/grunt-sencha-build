@@ -1,6 +1,6 @@
 # grunt-sencha-build
 
-> Grunt plugin to use as a wrapper to Sencha CMD
+> Grunt plugin to use as a wrapper to Sencha CMD.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
