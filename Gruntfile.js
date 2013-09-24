@@ -11,7 +11,7 @@
 module.exports = function(grunt) {
 
 	var senchaTouchApp = '/Users/kevin/Desktop/Sencha/public/GruntApp';
-	var extApp = '';
+	var extApp = '/Users/kevin/Desktop/Sencha/public/myapp';
 	var senchaPackage = '';
 
 	grunt.initConfig({
@@ -35,6 +35,12 @@ module.exports = function(grunt) {
 		},
 
 		sencha_app_build: {
+			ext_test: {
+				options: {
+					cwd: extApp
+				},
+				environment: 'testing'
+			},
 			touch_test: {
 				options: {
 					cwd: senchaTouchApp

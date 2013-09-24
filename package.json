@@ -12,12 +12,12 @@
     "url": "git://github.com/kazmiekr/grunt-sencha-build.git"
   },
   "bugs": {
-    "url": "https://github.com/kevin/grunt-sencha-build/issues"
+    "url": "https://github.com/kazmiekr/grunt-sencha-build/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/kevin/grunt-sencha-build/blob/master/LICENSE-MIT"
+      "url": "https://github.com/kazmiekr/grunt-sencha-build/blob/master/LICENSE-MIT"
     }
   ],
   "main": "Gruntfile.js",
