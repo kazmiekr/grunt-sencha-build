@@ -37,7 +37,7 @@ module.exports = function(grunt) {
 		sencha_app_build: {
 			touch_test: {
 				options: {
-					cwd: '/Users/kevin/Desktop/Sencha/public/GruntApp'
+					cwd: senchaTouchApp
 				},
 				environment: 'testing'
 			},
@@ -48,39 +48,7 @@ module.exports = function(grunt) {
 			production:{
 				environment: 'production'
 			}
-		},
-
-		compass: {
-			dist: {
-				options: {
-					sassDir: 'sass',
-					cssDir: 'css',
-					environment: 'production'
-				}
-			},
-			dev: {
-				options: {
-					basePath: 'resources/sass',
-					config: 'resources/sass/config.rb'
-				}
-			}
-		},
-
-		notify: {
-			css: {
-				options: {
-					message: 'FuelMate css compile completed!'
-				}
-			}
-		},
-
-		watch: {
-			compass: {
-				files: ['resources/sass/app.scss'],
-				tasks: ['compass:dev', 'notify:css']
-			}
 		}
-
 	});
 
 	// Actually load this plugin's task(s).

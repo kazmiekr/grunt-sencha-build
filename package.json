@@ -1,23 +1,23 @@
 {
-  "name": "sencha-build",
+  "name": "grunt-sencha-build",
   "description": "Grunt plugin wrapper for Sencha CMD",
   "version": "0.1.0",
-  "homepage": "https://github.com/kevin/SenchaBuild",
+  "homepage": "https://github.com/kazmiekr/grunt-sencha-build",
   "author": {
     "name": "Kevin Kazmierczak",
     "email": "kazmiekr@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/kevin/SenchaBuild.git"
+    "url": "git://github.com/kazmiekr/grunt-sencha-build.git"
   },
   "bugs": {
-    "url": "https://github.com/kevin/SenchaBuild/issues"
+    "url": "https://github.com/kevin/grunt-sencha-build/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/kevin/SenchaBuild/blob/master/LICENSE-MIT"
+      "url": "https://github.com/kevin/grunt-sencha-build/blob/master/LICENSE-MIT"
     }
   ],
   "main": "Gruntfile.js",
