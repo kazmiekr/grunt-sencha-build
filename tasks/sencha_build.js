@@ -31,6 +31,10 @@ module.exports = function ( grunt ) {
 		{
 			name: 'which',
 			help: 'Outputs sencha path'
+		},
+		{
+			name: 'compile',
+			help: 'This command category provides JavaScript compilation commands. Read more in Sencha CMD documentation'
 		}
 	];
 
@@ -58,6 +62,10 @@ module.exports = function ( grunt ) {
 			// Add option to point to a different directory
 			if ( options.cwd ){
 				cmd += ' -cw ' + options.cwd;
+			}
+
+			if ( options.noLogo !== false ) {
+				cmd += ' -n';
 			}
 
 			// Add our task
@@ -89,6 +97,11 @@ module.exports = function ( grunt ) {
 				}
 			}
 
+			var commnadParameters = options.params;
+			if ( commnadParameters ) {
+				cmd += ' ' + commnadParameters.join(' ');
+			}
+			
 			// Simulate property is always available to just dump the cmd it was about to run
 			if ( data.simulate ) {
 				log.writeln( cmd );
@@ -107,15 +120,24 @@ module.exports = function ( grunt ) {
 
 	// Helper to run an executable
 	function runScript ( script, done ) {
-		grunt.log.writeln( "Running script: " + script );
+		log.debug( "Running script: " + script );
+
 		var childProcess = cp.exec( script, {}, function () {
 		} );
 
+		var removeExtras = function ( str ) {
+			return str.replace( /^\[(INF|ERR)\][\s]*/, '' );
+		}
+
 		childProcess.stdout.on( 'data', function ( d ) {
-			log.write( d );
+			if ( d.match( /^\[ERR\]/ ) ) {
+				log.error( removeExtras ( d ) );
+			} else {
+				log.write( removeExtras ( d ) );
+			}
 		} );
 		childProcess.stderr.on( 'data', function ( d ) {
-			log.error( d );
+			log.error( removeExtras ( d ) );
 		} );
 
 		childProcess.on( 'exit', function ( code ) {
