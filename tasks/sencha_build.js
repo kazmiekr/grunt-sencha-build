@@ -41,7 +41,7 @@ module.exports = function ( grunt ) {
 	var cp = require( 'child_process' );
 	var log = grunt.log;
 
-	var compressOutput = false;
+	var compressOutput = true;
 
 	function buildTask ( task ) {
 		var taskName = PREFIX + '_' + task.name.replace( ' ', '_' );
