@@ -41,6 +41,8 @@ module.exports = function ( grunt ) {
 	var cp = require( 'child_process' );
 	var log = grunt.log;
 
+	var compressOutput = false;
+
 	function buildTask ( task ) {
 		var taskName = PREFIX + '_' + task.name.replace( ' ', '_' );
 		grunt.registerMultiTask( taskName, task.help, function () {
@@ -56,6 +58,10 @@ module.exports = function ( grunt ) {
 				options.cmdPath = SENCHA_CMD_PATH;
 			}
 
+			if ( options.compressOutput ) {
+				compressOutput = options.compressOutput;
+			}
+
 			// Start building our command
 			var cmd = options.cmdPath;
 
@@ -64,6 +70,7 @@ module.exports = function ( grunt ) {
 				cmd += ' -cw ' + options.cwd;
 			}
 
+			// Suppress the logo information
 			if ( options.noLogo !== false ) {
 				cmd += ' -n';
 			}
@@ -97,11 +104,11 @@ module.exports = function ( grunt ) {
 				}
 			}
 
-			var commnadParameters = options.params;
-			if ( commnadParameters ) {
-				cmd += ' ' + commnadParameters.join(' ');
+			var commandParameters = options.params;
+			if ( commandParameters ) {
+				cmd += ' ' + commandParameters.join(' ');
 			}
-			
+
 			// Simulate property is always available to just dump the cmd it was about to run
 			if ( data.simulate ) {
 				log.writeln( cmd );
@@ -126,14 +133,21 @@ module.exports = function ( grunt ) {
 		} );
 
 		var removeExtras = function ( str ) {
-			return str.replace( /^\[(INF|ERR)\][\s]*/, '' );
-		}
+			if ( compressOutput ) {
+				return str.replace( /\[(INF|ERR)\][\s]*/g, '' );
+			} else {
+				return str;
+			}
+		};
 
 		childProcess.stdout.on( 'data', function ( d ) {
 			if ( d.match( /^\[ERR\]/ ) ) {
 				log.error( removeExtras ( d ) );
 			} else {
-				log.write( removeExtras ( d ) );
+				var dataLine = removeExtras ( d ).trim();
+				if ( dataLine ) {
+					log.writeln( dataLine );
+				}
 			}
 		} );
 		childProcess.stderr.on( 'data', function ( d ) {

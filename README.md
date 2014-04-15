@@ -21,7 +21,7 @@ grunt.loadNpmTasks('grunt-sencha-build');
 Sencha CMD is required for this plugin.  In most cases it's installed as the command line app 'sencha'.  For more details on Sencha CMD, visit http://docs-origin.sencha.com/cmd/3.1.2/#!/guide/command
 
 ## Supported Commands
-Currently only the 'sencha app build' command is supported via the 'sencha_app_build' task.  More commands are coming and if there are some in particular you have use for, please let me know and I'll add them.
+Currently only the 'sencha app build' and 'sencha compile' are supported via the 'sencha_app_build' task.  More commands are coming and if there are some in particular you have use for, please let me know and I'll add them.
 
 ## The "sencha_app_build" task
 
@@ -56,7 +56,7 @@ grunt.initConfig({
 Type: `String`
 Default value: ``
 
-The path to your app you want to work with, defaults to the current directoy
+The path to your app you want to work with, defaults to the current directory
 
 #### options.cmdPath
 Type: `String`
@@ -100,3 +100,32 @@ grunt.initConfig({
   }
 })
 ```
+
+## The "sencha_compile" task
+
+### Overview
+In your project's Gruntfile, add a section named `sencha_compile` to the data object passed into `grunt.initConfig()`.  This task will run the sencha cmd compile target.  See the Sencha CMD documentation for additional options.
+
+```js
+grunt.initConfig({
+  // Simple Example
+  sencha_compile: {
+    testing_build: {
+        options: {
+            params: [
+                "page -i index.html -o output.html"
+            ]
+        }
+	}
+  }
+})
+```
+
+### Options
+
+#### options.params
+Type: `Array`
+Default value: ``
+
+An array of parameters.  If you prefer you can also just make them as one string in the array like above.
+

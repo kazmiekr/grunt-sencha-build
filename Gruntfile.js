@@ -10,9 +10,8 @@
 
 module.exports = function(grunt) {
 
-	var senchaTouchApp = '/Users/kevin/Desktop/Sencha/public/GruntApp';
-	var extApp = '/Users/kevin/Desktop/Sencha/public/myapp';
-	var senchaPackage = '';
+	var senchaTouchApp = '/Users/KKazmierczak/Documents/Programming/Web/SenchaApps/public/GruntApp';
+	var extApp = '/Users/KKazmierczak/Documents/Programming/Web/SenchaApps/public/myapp';
 
 	grunt.initConfig({
 
@@ -34,6 +33,17 @@ module.exports = function(grunt) {
 			testing: {}
 		},
 
+		sencha_compile: {
+			touch: {
+				options: {
+					cwd: senchaTouchApp,
+					params: [
+						"page -i index.html -o output.html"
+					]
+				}
+			}
+		},
+
 		sencha_app_build: {
 			ext_test: {
 				options: {
@@ -43,7 +53,8 @@ module.exports = function(grunt) {
 			},
 			touch_test: {
 				options: {
-					cwd: senchaTouchApp
+					cwd: senchaTouchApp,
+					compressOutput : false
 				},
 				environment: 'testing'
 			},
