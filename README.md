@@ -21,7 +21,7 @@ grunt.loadNpmTasks('grunt-sencha-build');
 Sencha CMD is required for this plugin.  In most cases it's installed as the command line app 'sencha'.  For more details on Sencha CMD, visit http://docs-origin.sencha.com/cmd/3.1.2/#!/guide/command
 
 ## Supported Commands
-Currently only the 'sencha app build' and 'sencha compile' are supported via the 'sencha_app_build' task.  More commands are coming and if there are some in particular you have use for, please let me know and I'll add them.
+Currently only 'sencha app build' and 'sencha compile' are supported via the 'sencha_app_build' task.  More commands are coming and if there are some in particular you have use for, please let me know and I'll add them.
 
 ## The "sencha_app_build" task
 
