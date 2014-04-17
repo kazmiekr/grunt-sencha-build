@@ -37,16 +37,21 @@ module.exports = function ( grunt ) {
 		{
 			name: 'compile',
 			help: 'This command category provides JavaScript compilation commands. Read more in Sencha CMD documentation'
+		},
+		{
+			name: '',
+			help: 'Generic sencha command task'
 		}
 	];
 
 	var cp = require( 'child_process' );
 	var log = grunt.log;
+	var fail = grunt.fail;
 
 	var compressOutput = true;
 
 	function buildTask ( task ) {
-		var taskName = PREFIX + '_' + task.name.replace( ' ', '_' );
+		var taskName = task.name === '' ? PREFIX : PREFIX + '_' + task.name.replace( ' ', '_' );
 		grunt.registerMultiTask( taskName, task.help, function () {
 			var options = this.options(),
 				done = this.async(),
@@ -97,10 +102,10 @@ module.exports = function ( grunt ) {
 				if ( isRequired ) {
 					var paramOptions = task.params[ paramName ];
 					if ( param === undefined ) {
-						log.error( 'paramName ' + paramName + ' is required' );
+						fail.error( 'paramName ' + paramName + ' is required' );
 						return done( false );
 					} else if ( contains( param, paramOptions ) === false ) {
-						log.error( 'paramName ' + paramName + ' has to be ' + paramOptions );
+						fail.error( 'paramName ' + paramName + ' has to be ' + paramOptions );
 						return done( false );
 					} else {
 						cmd += " " + data[paramName];
@@ -112,9 +117,13 @@ module.exports = function ( grunt ) {
 				}
 			}
 
-			var commandParameters = options.params;
+			var commandParameters = data.params || data.command || /* background compatibility */options.params;
 			if ( commandParameters ) {
 				cmd += ' ' + commandParameters.join(' ');
+
+				if ( taskName === PREFIX ) {
+					log.writeln( 'Running: ' + commandParameters.join(' ')['cyan'] )
+				}
 			}
 
 			// Simulate property is always available to just dump the cmd it was about to run
@@ -139,7 +148,9 @@ module.exports = function ( grunt ) {
 
 	// Helper to run an executable
 	function runScript ( script, done, cwd ) {
-		var options = {};
+		var warning,
+			error,
+			options = {};
 
 		if ( cwd ) {
 			options.cwd = cwd;
@@ -152,17 +163,23 @@ module.exports = function ( grunt ) {
 
 		var removeExtras = function ( str ) {
 			if ( compressOutput ) {
-				return str.replace( /\[(INF|ERR)\][\s]*/g, '' );
+				return str.replace( /\[(INF|ERR|WRN)\][\s]+/g, '' );
 			} else {
 				return str;
 			}
 		};
 
 		childProcess.stdout.on( 'data', function ( d ) {
+			var message = removeExtras ( d );
+
 			if ( d.match( /^\[ERR\]/ ) ) {
-				log.error( removeExtras ( d ) );
+				error = error || message;
+				log.error( message );
+			} else if ( d.match( /^\[WRN\]/ ) ) {
+				warning = warning || message;
+				log.warn ( message );
 			} else {
-				var dataLine = removeExtras ( d ).trim();
+				var dataLine = message.trim();
 				if ( dataLine ) {
 					log.writeln( dataLine );
 				}
@@ -173,6 +190,17 @@ module.exports = function ( grunt ) {
 		} );
 
 		childProcess.on( 'exit', function ( code ) {
+			if ( error ) {
+				log.writeln(); // write new line to gap from previous output
+				fail.fatal( error + ' (see log for details)' );
+			}
+
+			if ( warning ) {
+				log.writeln(); // write new line to gap from previous output
+				fail.warn( warning + ' (see log for details)' );
+				log.writeln(); // write new line to gap from previous output
+			}
+
 			if ( code !== 0 ) {
 				log.error( 'Exited with code: %d.', code );
 				return done( false );

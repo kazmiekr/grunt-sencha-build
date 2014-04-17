@@ -111,21 +111,45 @@ grunt.initConfig({
   // Simple Example
   sencha_compile: {
     testing_build: {
-        options: {
-            params: [
-                "page -i index.html -o output.html"
-            ]
-        }
+        params: [
+            "page -i index.html -o output.html"
+        ]
 	}
   }
 })
 ```
 
-### Options
+### Properties
 
-#### options.params
+#### params
 Type: `Array`
 Default value: ``
 
 An array of parameters.  If you prefer you can also just make them as one string in the array like above.
+
+## The generic "sencha" task
+
+### Overview
+Any task that Sencha CMD supports can be achieved by this grunt task. It just takes the command from grunt's config.
+
+```js
+grunt.initConfig({
+  // Simple Example
+  sencha: {
+    concat: {
+        command: [
+            "fs concat -to=output.js input1.js input2.js input3.js"
+        ]
+	}
+  }
+})
+```
+
+### Properties
+
+#### command
+Type: `Array`
+Default value: ``
+
+An array of command lines.  If you prefer you can also just make them as one string in the array like above.
 
