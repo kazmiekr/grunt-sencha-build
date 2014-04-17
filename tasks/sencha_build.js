@@ -14,6 +14,8 @@ module.exports = function ( grunt ) {
 	var PREFIX = "sencha";
 	// The default path to Sencha CMD
 	var SENCHA_CMD_PATH = "sencha";
+	// The default version of Sencha CMD
+	var SENCHA_CMD_VERSION = '4.0.2.67';
 
 	var tasks = [
 		{
@@ -58,6 +60,12 @@ module.exports = function ( grunt ) {
 				options.cmdPath = SENCHA_CMD_PATH;
 			}
 
+			if ( !options.senchaVersion ) {
+				options.senchaVersion = version(SENCHA_CMD_VERSION);
+			} else {
+				options.senchaVersion = version(options.senchaVersion);
+			}
+
 			if ( options.compressOutput ) {
 				compressOutput = options.compressOutput;
 			}
@@ -66,7 +74,7 @@ module.exports = function ( grunt ) {
 			var cmd = options.cmdPath;
 
 			// Add option to point to a different directory
-			if ( options.cwd ){
+			if ( options.cwd && options.senchaVersion.major > 3 ){
 				cmd += ' -cw ' + options.cwd;
 			}
 
@@ -114,7 +122,11 @@ module.exports = function ( grunt ) {
 				log.writeln( cmd );
 				done();
 			} else {
-				runScript( cmd, done );
+				if ( options.senchaVersion.major === 3 ) {
+					runScript( cmd, done, options.cwd );
+				} else {
+					runScript( cmd, done );
+				}
 			}
 
 		} );
@@ -126,10 +138,16 @@ module.exports = function ( grunt ) {
 	}
 
 	// Helper to run an executable
-	function runScript ( script, done ) {
-		log.debug( "Running script: " + script );
+	function runScript ( script, done, cwd ) {
+		var options = {};
 
-		var childProcess = cp.exec( script, {}, function () {
+		if ( cwd ) {
+			options.cwd = cwd;
+		}
+
+		grunt.verbose.write( "Running script: " + script );
+
+		var childProcess = cp.exec( script, options, function () {
 		} );
 
 		var removeExtras = function ( str ) {
@@ -174,5 +192,32 @@ module.exports = function ( grunt ) {
 			}
 		}
 		return isFound;
+	}
+
+	// Helper to compare versions
+	function version(ver) {
+		var type = typeof ver;
+
+		if ( type === 'number' ) {
+			return {
+				major: ver
+			}
+		} else if ( type === 'object' ) {
+			return ver;
+		}
+
+		var parts = ver.split('.'),
+			i;
+
+		for ( i = parts.length; i--; ) {
+			parts[i] = parseInt(parts[i], 10);
+		}
+
+		return {
+			major: parts[0],
+			minor: parts[1],
+			patch: parts[2],
+			build: parts[3]
+		};
 	}
 };
