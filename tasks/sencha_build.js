@@ -122,7 +122,7 @@ module.exports = function ( grunt ) {
 				cmd += ' ' + commandParameters.join(' ');
 
 				if ( taskName === PREFIX ) {
-					log.writeln( 'Running: ' + commandParameters.join(' ')['cyan'] )
+					log.writeln( 'Running: ' + commandParameters.join(' ')['cyan'] );
 				}
 			}
 
@@ -229,7 +229,7 @@ module.exports = function ( grunt ) {
 		if ( type === 'number' ) {
 			return {
 				major: ver
-			}
+			};
 		} else if ( type === 'object' ) {
 			return ver;
 		}

@@ -36,11 +36,19 @@ module.exports = function(grunt) {
 		sencha_compile: {
 			touch: {
 				options: {
-					cwd: senchaTouchApp,
-					params: [
-						"page -i index.html -o output.html"
-					]
-				}
+					cwd: senchaTouchApp
+				},
+				params: [
+					"page -i index.html -o output.html"
+				]
+			}
+		},
+
+		sencha:{
+			concat: {
+				command: [
+					"fs concat -to=output.js input1.js input2.js input3.js"
+				]
 			}
 		},
 
