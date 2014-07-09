@@ -47,6 +47,8 @@ module.exports = function ( grunt ) {
 	var cp = require( 'child_process' );
 	var log = grunt.log;
 	var fail = grunt.fail;
+	
+	var failOnWarn = true;
 
 	var compressOutput = true;
 
@@ -71,7 +73,7 @@ module.exports = function ( grunt ) {
 				options.senchaVersion = version(options.senchaVersion);
 			}
 
-			if ( options.compressOutput ) {
+			if ( options.compressOutput !== undefined ) {
 				compressOutput = options.compressOutput;
 			}
 
@@ -87,10 +89,12 @@ module.exports = function ( grunt ) {
 			if ( options.noLogo !== false ) {
 				cmd += ' -n';
 			}
-
+			
 			// Add our task
 			cmd +=	' ' + task.name;
 
+			failOnWarn = !! options.failOnWarn;
+			
 			// Build out our properties to the command
 			var parameters = task.command.split( ' ' );
 			var parameter;
@@ -195,7 +199,7 @@ module.exports = function ( grunt ) {
 				fail.fatal( error + ' (see log for details)' );
 			}
 
-			if ( warning ) {
+			if ( warning && failOnWarn ) {
 				log.writeln(); // write new line to gap from previous output
 				fail.warn( warning + ' (see log for details)' );
 				log.writeln(); // write new line to gap from previous output
