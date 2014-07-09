@@ -55,14 +55,16 @@ module.exports = function(grunt) {
 		sencha_app_build: {
 			ext_test: {
 				options: {
-					cwd: extApp
+					cwd: extApp,
+                    compressOutput: false,
+                    failOnWarn: true
 				},
 				environment: 'testing'
 			},
 			touch_test: {
 				options: {
 					cwd: senchaTouchApp,
-					compressOutput : false
+					compressOutput: false
 				},
 				environment: 'testing'
 			},

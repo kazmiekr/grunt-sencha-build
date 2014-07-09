@@ -64,6 +64,12 @@ Default value: `sencha`
 
 The full path to the Sencha CMD executable, defaults to 'sencha'
 
+#### options.failOnWarn
+Type: `Boolean`
+Default value: `false`
+
+A flag to tell the build to fail when it has any warnings
+
 ### Properties
 
 #### environment
@@ -153,3 +159,10 @@ Default value: ``
 
 An array of command lines.  If you prefer you can also just make them as one string in the array like above.
 
+
+## Release Notes
+* 0.1.5 - 07-09-2014 - Added failOnWarn option
+* 0.1.4 - 04-17-2014 - Added generic 'sencha' command to run any command, improved error handling, and support for Sencha CMD 3
+* 0.1.3 - 04-15-2014 - Changed default compressOutput option
+* 0.1.2 - 04-15-2014 - Added compressOutput option
+* 0.1.1 - 09-24-2013 - Initial code to NPM
