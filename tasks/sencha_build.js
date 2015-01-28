@@ -205,7 +205,8 @@ module.exports = function ( grunt ) {
 				log.writeln(); // write new line to gap from previous output
 			}
 
-			if ( code !== 0 ) {
+			// Sencha CMD sometimes does not provide exit code when there are "only" warnings
+			if ( code !== 0 && code !== null ) {
 				log.error( 'Exited with code: %d.', code );
 				return done( false );
 			}
