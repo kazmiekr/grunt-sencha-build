@@ -161,6 +161,7 @@ An array of command lines.  If you prefer you can also just make them as one str
 
 
 ## Release Notes
+* 0.1.6 - 01-27-2015 - Adjusted error code logic
 * 0.1.5 - 07-09-2014 - Added failOnWarn option
 * 0.1.4 - 04-17-2014 - Added generic 'sencha' command to run any command, improved error handling, and support for Sencha CMD 3
 * 0.1.3 - 04-15-2014 - Changed default compressOutput option
